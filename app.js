@@ -1,8 +1,8 @@
 'use strict';
 
-var express = require('express');
-var loudness = require('./index_reduced');
-var app = express();
+var express = require('express'),
+    loudness = require('loudness'),
+    app = express();
 
 app.get('/set/:value', function(req, res) {
     var value = req.params.value;
@@ -11,8 +11,15 @@ app.get('/set/:value', function(req, res) {
     });
     res.send('Up volumen:' + value);
 });
-app.get('/toggle', function(req, res) {
-    loudness.toggleMuted(function(err) {
+
+app.get('/mute', function(req, res) {
+    loudness.setMuted(true, function(err) {
+        console.error(err);
+    });
+});
+
+app.get('/nomute', function(req, res) {
+    loudness.setMuted(false, function(err) {
         console.error(err);
     });
 });
